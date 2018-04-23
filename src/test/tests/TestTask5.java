@@ -61,13 +61,14 @@ class ProductPresenceValidator {
         Boolean result = false;
         ChromeDriver driver = new ChromeDriver();
         driver.get(BasePage.BaseURL);
-        WebElement searchField = driver.findElement(By.xpath("//input[@name='search']"));
+        BasePage page = new BasePage();
+        WebElement searchField = driver.findElement(page.searchField);
         searchField.click();
         searchField.sendKeys(id);
-        WebElement zoekButton = driver.findElement(By.xpath("//button[text()='Zoek']"));
+        WebElement zoekButton = driver.findElement(page.zoekButton);
         zoekButton.click();
         try {
-            WebElement pcode = driver.findElement(By.xpath("//*[contains(text(),'Productcode:')]"));
+            WebElement pcode = driver.findElement(page.productCode);
             if (pcode.getText().contains(String.format("Productcode: %s", id))) {
                 result = true;
             }

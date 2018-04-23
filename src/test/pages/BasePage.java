@@ -32,6 +32,12 @@ public class BasePage {
     public By priceList = By.xpath("//div[@class='price priceExcl']");
     // Locator for "Volgende" button
     public By volgendeButton = By.xpath("//*[contains(text(),'Volgende ')]");
+    // Locator for title with productCode
+    public By productCode = By.xpath("//*[contains(text(),'Productcode:')]");
+    // Locator for search field
+    public By searchField = By.xpath("//input[@name='search']");
+    // Locator for "Zoek" button
+    public By zoekButton = By.xpath("//button[text()='Zoek']");
 
     // Method returns Selector for item from list of dropDown options for filters
     public By getDropDownSelector(int number){

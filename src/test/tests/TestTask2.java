@@ -44,7 +44,6 @@ public class TestTask2 {
 
         List<WebElement> filtersList = driver.findElements(monitor.filters);
         filtersList.removeIf(fl -> !fl.getText().equals("Prijs"));
-        System.out.println(filtersList.size());
         prijsFilter = filtersList.get(0);
         prijsFilter.click();
 
@@ -70,7 +69,6 @@ public class TestTask2 {
         while (hasNext) {
             hasNext = false;
             for (WebElement el:priseList){
-                System.out.println(el.getText());
                 Assert.assertTrue(Integer.parseInt(el.getText().replaceAll("[^0-9]+", "")) >= 1000);
             }
             try {
@@ -83,5 +81,4 @@ public class TestTask2 {
         }
 
     }
-
 }

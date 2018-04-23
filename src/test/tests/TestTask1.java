@@ -47,7 +47,6 @@ public class TestTask1 {
     public void testRandomFilter() {
         List<WebElement> filtersList = driver.findElements(laptop.filters);
         filtersList.removeIf(fl -> fl.getText().equals("Prijs")||fl.getText().equals("Sortering"));
-        System.out.println(filtersList.size());
 
         int randomFilterNumber = new Random().nextInt(filtersList.size());
         WebElement randomFilter = filtersList.get(randomFilterNumber);
@@ -56,37 +55,33 @@ public class TestTask1 {
 
 
         int availableOptionsNumber = randomFilter.findElements(laptop.dropDownOptions).size();
-        System.out.println("availableOptionsNumber   "+availableOptionsNumber);
 
         int randomNumber = new Random().nextInt(availableOptionsNumber) + 1;
         WebElement randomOption = randomFilter.findElement(laptop
                 .getDropDownSelector(randomNumber));
         actions.moveToElement(randomOption).build().perform();
 
-        System.out.println(randomOption.getText());
         itemsNumber = Integer.parseInt(randomOption.getText().replaceAll("[^0-9]+", ""));
-        System.out.println(itemsNumber);
+        System.out.println("expected number of products: "+itemsNumber);
         actions.moveToElement(randomFilter.findElement(laptop.getDropDownCheckBoxSelector(randomNumber)))
                 .click().build().perform();
         WebElement sButton = randomFilter.findElement(laptop.sluitenButton);
 
         actions.moveToElement(sButton).click(sButton).build().perform();
-//        //actions.perform();
-//        actions.click(sButton);
-//        actions.perform();
-//        //sButton.click();
 
         (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver d) {
-                return d.findElement(laptop.title).isDisplayed(); //.getText().toLowerCase().contains(String.format("(%s resultaten)", itemsNumber));
+                return d.findElement(laptop.title).isDisplayed();
             }
         });
-
-        int actualNumber = Integer.parseInt(driver.findElement(laptop.title)
-                .getText().replaceAll("[^0-9]+", ""));
-        System.out.println(actualNumber+"   =    "+itemsNumber);
-        Assert.assertTrue(actualNumber == itemsNumber);
-
+        if (itemsNumber == 1){
+            Assert.assertTrue(driver.findElement(laptop.productCode).isDisplayed());
+        } else {
+            int actualNumber = Integer.parseInt(driver.findElement(laptop.title)
+                    .getText().replaceAll("[^0-9]+", ""));
+            System.out.println(actualNumber + "   =    " + itemsNumber);
+            Assert.assertTrue(actualNumber == itemsNumber);
+        }
     }
 }
